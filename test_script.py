@@ -97,7 +97,6 @@ def step1():
 
 @time_decorator
 @pre_image_verify_decorator('D:/py/xlbbtest/xlbbtest/loginimage/2.png', 12)
-# 打开app到第一屏
 def step2():
 
     sleep(3)
@@ -111,7 +110,7 @@ def step3():
     sleep(3)
     print('选择稍后再说')
     driver.tap([(170, 1500), ])
-    sleep(10)
+    sleep(6)
     print('点击进入游戏')
     driver.tap([(540, 1762), ])
 
