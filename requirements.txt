@@ -5,7 +5,4 @@ numpy==1.10.4
 opencv-python==3.1.0
 pep8==1.6.2
 Pillow==3.1.0
-
-
-
-
+virtualenv==13.1.2
