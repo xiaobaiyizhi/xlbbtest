@@ -1,0 +1,11 @@
+Appium-Python-Client==0.21
+autopep8==1.2.1
+matplotlib==1.5.1
+numpy==1.10.4
+opencv-python==3.1.0
+pep8==1.6.2
+Pillow==3.1.0
+
+
+
+
