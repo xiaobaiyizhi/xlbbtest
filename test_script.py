@@ -4,7 +4,7 @@ from time import sleep, time
 from appium import webdriver
 import image_template_match
 from decorator import time_decorator
-from detect_function import wait_by_image
+import WebDriver_extend
 import linecache
 from config import PATH
 from PIL import Image
@@ -75,21 +75,20 @@ def after_image_verify_decorator(*args):  # 脚本调用后置图片验证decora
 
 @time_decorator
 @pre_image_verify_decorator('pre_1.png', 10)
-@after_image_verify_decorator('aft_1.png', 5)
 # 打开app到第一屏
 def step1(server):
     driver.tap([(540, 1460), ])
-    wait_by_image(driver, 'wait1.png', 8)
+    driver.wait_by_image('wait1.png', 8)
     print()
     driver.tap([(540, 1528), ])
-    wait_by_image(driver, 'wait2.png', 5)
+    driver.wait_by_image('wait2.png', 5)
     driver.tap([(458, 700), ])
     sleep(2)
-    wait_by_image(driver, 'wait5.png', 4)
+    driver.wait_by_image('wait5.png', 4)
     driver.tap([(458, 593), ])
-    wait_by_image(driver, 'wait6.png', 10)
+    driver.wait_by_image('wait6.png', 10)
     driver.tap([(44, 40), ])
-    wait_by_image(driver, 'wait3.png', 10)
+    driver.wait_by_element_image('center.png',10)
 
     sleep(2)
     driver.tap([(630, 1500), ])
@@ -112,12 +111,13 @@ def step1(server):
     sleep(2)
     print('点击进入游戏')
     driver.tap([(540, 1662), ])
-    wait_by_image(driver, 'wait4.png', 8)
+    driver.wait_by_image('wait4.png', 8)
 
     driver.tap([(100, 250), ])
     sleep(1)
     driver.tap([(100, 250), ])
     sleep(1)
+    driver.result_image_verify('aft_1.png', servercode+'.png')
 
 
 
@@ -141,7 +141,8 @@ for servercode in config_data[0]:
     desired_caps['appPackage'] = 'com.baplay.gd.wp'
     desired_caps['appActivity'] = 'com.baplay.gd.wp.UnityPlayerActivity'
     global driver
-    driver = webdriver.Remote('http://172.16.40.20:4723/wd/hub', desired_caps)
+    #driver = webdriver.Remote('http://172.16.40.20:4723/wd/hub', desired_caps)
+    driver = WebDriver_extend.Remote('http://172.16.40.20:4723/wd/hub', desired_caps)
     step1(servercode)
     driver.close_app()
     driver.quit()
