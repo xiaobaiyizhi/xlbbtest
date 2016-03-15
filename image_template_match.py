@@ -19,7 +19,7 @@ def template_match(whole_image='search1.png', part_image='s11.png'):  # 模板�
     print(max_val)
     print(max_loc)
     if len(part_image.split('.')[0]) == 2:
-        threshold = 5000000
+        threshold = 6000000
     else:
         threshold = 9000000
     if max_val >= threshold:  # 阈值设置 临时解决办法
@@ -34,7 +34,7 @@ def template_match(whole_image='search1.png', part_image='s11.png'):  # 模板�
     # plt.title('Matching Result'), plt.xticks([]), plt.yticks([])
     # plt.subplot(122), plt.imshow(image1, cmap='gray')
     # plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
-    # plt.suptitle(meth)
+    # #plt.suptitle(meth)
 
     plt.show()
     return top_left[0]+w/2, top_left[1]+h/2  # 返回模板中心点坐标

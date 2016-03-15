@@ -4,9 +4,9 @@ from time import sleep, time
 
 
 def time_decorator(function):  # 时间花费修饰器
-    def wrapper():
+    def wrapper(*args, **kwargs):
         start_time = time()
-        function()
+        function(*args, **kwargs)
         print('time=' + str((time() - start_time)) + 's')
         print('--------------------------')
     return wrapper
