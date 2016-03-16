@@ -1,2 +1,2 @@
-server=s3
+server=s1,s2,s3,s4,s5
 channel=facebook,google,8888play,noregistration

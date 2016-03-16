@@ -1,6 +1,6 @@
 import os
 from time import sleep
-from config import PATH
+from base_config import PATH
 from appium.webdriver.webdriver import WebDriver
 from image_extend import Appium_Extend
 

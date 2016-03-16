@@ -2,13 +2,26 @@ import os
 from image_extend import Appium_Extend
 from time import sleep, time
 from appium import webdriver
-import image_template_match
 from decorator import time_decorator
 import WebDriver_extend
 import linecache
-from config import PATH
+from base_config import PATH
+
 from PIL import Image
 
+#
+# import unittest
+# class Search(unittest.TestCase):
+#     def setUp(self):
+#         pass
+#     def test_s(self):
+#         pass
+#     def tearDown(self):
+#         pass
+#
+#
+# if __name__ == '__main__':
+#     unittest.main()
 
 
 #CURRENT_SCREEN_SHOT = driver.get_screenshot_as_file('current_screen.png')
@@ -96,7 +109,8 @@ def step1(server):
     while 1:
         driver.get_screenshot_as_file(os.path.join(PATH, 'image', 'temp_shot.png'))
         server_iamge_path = server+'.png'
-        x, y = image_template_match.template_match('temp_shot.png', server_iamge_path)
+        extend = Appium_Extend(driver)
+        x, y = extend.template_match(os.path.join(PATH, 'image', 'temp_shot.png'), os.path.join(PATH, 'image', server_iamge_path))
         if x == 0 and y == 0:
             driver.swipe(630, 1380, 630, 1050, 2000)
             sleep(2)

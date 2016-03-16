@@ -117,7 +117,7 @@ class Appium_Extend(object):
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
         print(max_val)
         print(max_loc)
-        if len(part_image.split('.')[0]) == 2:
+        if len(os.path.split(part_image)[1].split('.')[0]) ==  2:
             threshold = 6000000
         else:
             threshold = 9000000
