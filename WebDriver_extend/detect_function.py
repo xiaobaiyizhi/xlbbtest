@@ -39,10 +39,10 @@ class WebDriver_extend(WebDriver):
             extend = Appium_Extend(self)
             #element = driver.find_element_by_class_name("android.widget.FrameLayout")
             self.get_screenshot_as_file(os.path.join(PATH, 'image', 'temp_shot.png'))
-            load = extend.load_image(element_image)
-            temp = extend.load_image(os.path.join(PATH, 'image', 'temp_shot.png'))
+            load = image_path
+            temp = os.path.join(PATH, 'image', 'temp_shot.png')
             x, y = extend.template_match(temp, load)
-            if x!=0 or y!=0:
+            if x != 0 or y != 0:
                 return "pass"
             else:
                 if sec <= max_wait:

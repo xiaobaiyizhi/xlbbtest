@@ -86,9 +86,9 @@ def step1(server):
     sleep(2)
     driver.wait_by_image('wait5.png', 4)
     driver.tap([(458, 593), ])
-    driver.wait_by_image('wait6.png', 10)
+    driver.wait_by_image('wait6.png', 3)
     driver.tap([(44, 40), ])
-    driver.wait_by_element_image('center.png',10)
+    driver.wait_by_element_image('center.png', 10)
 
     sleep(2)
     driver.tap([(630, 1500), ])
