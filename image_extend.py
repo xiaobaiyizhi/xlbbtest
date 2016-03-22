@@ -129,10 +129,10 @@ class Appium_Extend(object):
         bottom_right = (top_left[0] + w, top_left[1] + h)
         cv2.rectangle(image1, top_left, bottom_right, 255, 2)
         #debug专用
-        plt.subplot(121), plt.imshow(res, cmap='gray')
-        plt.title('Matching Result'), plt.xticks([]), plt.yticks([])
-        plt.subplot(122), plt.imshow(image1, cmap='gray')
-        plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
+        # plt.subplot(121), plt.imshow(res, cmap='gray')
+        # plt.title('Matching Result'), plt.xticks([]), plt.yticks([])
+        # plt.subplot(122), plt.imshow(image1, cmap='gray')
+        # plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
         # #plt.suptitle(meth)
 
         plt.show()

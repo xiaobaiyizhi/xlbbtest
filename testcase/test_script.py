@@ -6,6 +6,7 @@ from decorator import time_decorator
 import WebDriver_extend
 import linecache
 from base_config import PATH
+from write_xls import  write_xls
 
 from PIL import Image
 
@@ -50,37 +51,6 @@ def pre_image_verify_decorator(*args):  # 脚本调用图片验证decorator
                         print('info:前置验证超时')
                         break
             function(*args, **kwargs)
-            print('--------------------------')
-        return wrapper
-    return decorator
-
-
-def after_image_verify_decorator(*args):  # 脚本调用后置图片验证decorator
-    image_path = os.path.join(PATH, 'image', args[0])
-    secs = args[1]
-
-    def decorator(function):
-        def wrapper(*args, **kwargs):
-            function(*args, **kwargs)
-            result = False
-            sec = 0
-            while not result:
-                sleep(1)
-                extend = Appium_Extend(driver)
-                driver.get_screenshot_as_file(os.path.join(PATH, 'image', 'temp_shot.png'))
-                temp = extend.load_image(os.path.join(PATH, 'image', 'temp_shot.png'))
-                load = extend.load_image(image_path)
-                result = extend.same_as(temp, load, 10)
-                if result:
-                    print('info:结果验证通过')
-                    temp.save(os.path.join(PATH, 'result', 'success_image.png'))
-                else:
-                    if sec <= secs:
-                        print('.')
-                        sec += 1
-                    else:
-                        print('info:结果验证超时')
-                        break
             print('--------------------------')
         return wrapper
     return decorator
@@ -160,3 +130,13 @@ for servercode in config_data[0]:
     step1(servercode)
     driver.close_app()
     driver.quit()
+
+result_table = []
+result_table = [['server', 'time']]
+with open(os.path.join(PATH, 'result', 'result_temp.txt'), 'r') as f:
+    for servercode in config_data[0]:
+        server_time = f.readline().strip('\n')
+        result_table.append([servercode, server_time])
+
+write_xls(os.path.join(PATH, 'result', 'login.xls'), result_table)
+
