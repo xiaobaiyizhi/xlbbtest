@@ -4,8 +4,10 @@ import shutil
 from functools import reduce
 from matplotlib import pyplot as plt
 import cv2
-
 from PIL import Image
+import numpy as np
+
+
 
 PATH = lambda p: os.path.abspath(p)
 TEMP_FILE = PATH(tempfile.gettempdir() + "/temp_screen.png")
@@ -15,8 +17,6 @@ class Appium_Extend(object):
 
     def __init__(self, driver):
         self.driver = driver
-
-
 
     # 根据element名称获取截图
     def get_screenshot_by_element(self, element):
@@ -48,7 +48,7 @@ class Appium_Extend(object):
 
         return newimage
 
-    #全屏幕截图
+    # 全屏幕截图
     def get_screenshot_by_full_size(self):
         self.driver.get_screenshot_as_file(TEMP_FILE)
         newimage = Image.open(TEMP_FILE)
@@ -90,7 +90,6 @@ class Appium_Extend(object):
             d &= d-1
         return h
 
-
     # 对比图片
     def same_as(self, temp_image, load_image, percent):
         image1 = temp_image
@@ -106,7 +105,8 @@ class Appium_Extend(object):
         else:
             return False
 
-    def template_match(self, whole_image, part_image):  # 模板匹配函数
+    # 模板匹配函数
+    def template_match(self, whole_image, part_image):
 
         image1 = cv2.imread(whole_image, 0)
 
@@ -137,6 +137,67 @@ class Appium_Extend(object):
 
         plt.show()
         return top_left[0]+w/2, top_left[1]+h/2  # 返回模板中心点坐标
+
+
+    def sift_match(self,whole_image, part_image):
+        MIN_MATCH_COUNT = 10
+
+        img1 = cv2.imread('s3.png')
+        img2 = cv2.imread('search1.png')
+        img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+        img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
+        sift = cv2.xfeatures2d.SIFT_create()
+        kp1, des1 = sift.detectAndCompute(img1, None)
+        kp2, des2 = sift.detectAndCompute(img2, None)
+
+        FLANN_INDEX_KDTREE = 0
+
+        index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
+        search_params = dict(checks = 50)
+
+        flann = cv2.BFMatcher()
+        matches = flann.knnMatch(des1, des2, k=2)
+
+        # store all the good matches as per Lowe's ratio test.
+        good = []
+        for m, n in matches:
+            if m.distance < 0.7*n.distance:
+                good.append(m)
+
+
+        if len(good)>MIN_MATCH_COUNT:
+            src_pts = np.float32([ kp1[m.queryIdx].pt for m in good ]).reshape(-1,1,2)
+            dst_pts = np.float32([ kp2[m.trainIdx].pt for m in good ]).reshape(-1,1,2)
+
+            M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0)
+            matchesMask = mask.ravel().tolist()
+
+            h,w = img1.shape
+            print(type(w))
+            print(str(h))
+
+            pts = np.float32([[0, 0], [0, h-1], [w-1, h-1], [w-1, 0]]).reshape(-1, 1, 2)
+            dst = cv2.perspectiveTransform(pts, M)
+            x = np.int32(dst)[0][0][0] + int(w)/2
+            y = np.int32(dst)[0][0][1] + int(h)/2
+            return x, y
+            #plt.imshow(img2),plt.show()
+        else:
+
+            matchesMask = None
+            return 0, 0
+
+        # draw_params = dict(matchColor = (0,255,0), # draw matches in green color
+        #                    singlePointColor = None,
+        #                    matchesMask = matchesMask, # draw only inliers
+        #                    flags = 2)
+        #
+        # img3 = cv2.drawMatches(img1,kp1,img2,kp2,good,None,**draw_params)
+        #
+        #
+        #
+        # plt.imshow(img3),plt.show()
 
     # 初始话结果矩阵
 

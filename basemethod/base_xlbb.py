@@ -7,6 +7,7 @@ from decorator import time_decorator
 import linecache
 import WebDriver_extend
 
+
 def pre_image_verify_decorator(*args):  # 脚本调用图片验证decorator
     image_path = os.path.join(PATH, 'image', args[0])
     secs = args[1]

@@ -1,14 +1,12 @@
 import os
 from image_extend import Appium_Extend
 from time import sleep, time
-from appium import webdriver
 from decorator import time_decorator
 import WebDriver_extend
 import linecache
 from base_config import PATH
-from write_xls import  write_xls
+from basemethod.base_xlwt import write_xls
 
-from PIL import Image
 
 #
 # import unittest
